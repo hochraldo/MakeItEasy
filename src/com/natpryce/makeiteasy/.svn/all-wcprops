@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/71/trunk/src/com/natpryce/makeiteasy
+END
+Instantiator.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/12/trunk/src/com/natpryce/makeiteasy/Instantiator.java
+END
+Maker.java
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/53/trunk/src/com/natpryce/makeiteasy/Maker.java
+END
+PropertyValue.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/53/trunk/src/com/natpryce/makeiteasy/PropertyValue.java
+END
+Donor.java
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/53/trunk/src/com/natpryce/makeiteasy/Donor.java
+END
+Property.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/12/trunk/src/com/natpryce/makeiteasy/Property.java
+END
+SameValueDonor.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/53/trunk/src/com/natpryce/makeiteasy/SameValueDonor.java
+END
+NewCollectionDonor.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/53/trunk/src/com/natpryce/makeiteasy/NewCollectionDonor.java
+END
+SequenceDonor.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/53/trunk/src/com/natpryce/makeiteasy/SequenceDonor.java
+END
+MakeItEasy.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/71/trunk/src/com/natpryce/makeiteasy/MakeItEasy.java
+END
+package.html
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/12/trunk/src/com/natpryce/makeiteasy/package.html
+END
+PropertyLookup.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/53/trunk/src/com/natpryce/makeiteasy/PropertyLookup.java
+END
