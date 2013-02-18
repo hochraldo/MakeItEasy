@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.hochreiter</groupId>
 	<artifactId>make-it-easy</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>make-it-easy</name>
 	<description>Fork of MakeItEasy from Nat Pryce</description>
