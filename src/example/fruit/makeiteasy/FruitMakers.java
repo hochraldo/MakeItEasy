@@ -1,9 +1,10 @@
 package example.fruit.makeiteasy;
 
-import com.natpryce.makeiteasy.Instantiator;
-import com.natpryce.makeiteasy.Property;
-import static com.natpryce.makeiteasy.Property.newProperty;
-import com.natpryce.makeiteasy.PropertyLookup;
+import com.hochreiter.makeiteasy.Instantiator;
+import com.hochreiter.makeiteasy.Property;
+import com.hochreiter.makeiteasy.PropertyLookup;
+
+import static com.hochreiter.makeiteasy.Property.newProperty;
 import example.fruit.Apple;
 import example.fruit.Banana;
 import example.fruit.Fruit;

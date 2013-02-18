@@ -1,14 +1,15 @@
 package example.fruit.makeiteasy;
 
-import com.natpryce.makeiteasy.Instantiator;
-import com.natpryce.makeiteasy.Property;
-import com.natpryce.makeiteasy.PropertyLookup;
+import com.hochreiter.makeiteasy.Instantiator;
+import com.hochreiter.makeiteasy.Property;
+import com.hochreiter.makeiteasy.PropertyLookup;
+
 import example.fruit.Apple;
 import example.fruit.AppleCart;
 
-import static com.natpryce.makeiteasy.MakeItEasy.an;
-import static com.natpryce.makeiteasy.MakeItEasy.listOf;
-import static com.natpryce.makeiteasy.Property.newProperty;
+import static com.hochreiter.makeiteasy.MakeItEasy.an;
+import static com.hochreiter.makeiteasy.MakeItEasy.listOf;
+import static com.hochreiter.makeiteasy.Property.newProperty;
 import static example.fruit.makeiteasy.FruitMakers.Apple;
 
 

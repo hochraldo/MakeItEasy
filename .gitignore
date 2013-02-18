@@ -3,3 +3,5 @@ bin
 lib
 .project
 .classpath
+target
+.settings

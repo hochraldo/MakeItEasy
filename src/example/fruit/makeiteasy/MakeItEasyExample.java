@@ -1,9 +1,10 @@
 package example.fruit.makeiteasy;
 
-import com.natpryce.makeiteasy.Maker;
+import com.hochreiter.makeiteasy.Maker;
+
 import example.fruit.*;
 
-import static com.natpryce.makeiteasy.MakeItEasy.*;
+import static com.hochreiter.makeiteasy.MakeItEasy.*;
 import static example.fruit.makeiteasy.AppleCartMaker.AppleCart;
 import static example.fruit.makeiteasy.AppleCartMaker.apples;
 import static example.fruit.makeiteasy.FruitBowlMaker.FruitBowl;
@@ -13,8 +14,8 @@ import static example.fruit.makeiteasy.TreeMaker.BananaTree;
 import static example.fruit.makeiteasy.TreeMaker.bananas;
 
 
-@SuppressWarnings({})
 public class MakeItEasyExample {
+    @SuppressWarnings("unused")
     public static void howToMakeSimpleObjects() {
         Maker<Apple> appleWith2Leaves = an(Apple, with(2, leaves));
         Maker<Apple> ripeApple = appleWith2Leaves.but(with(ripeness, 0.9));
@@ -28,6 +29,7 @@ public class MakeItEasyExample {
         Banana squishyBanana = make(a(Banana, with(ripeness, 1.0)));
     }
 
+    @SuppressWarnings("unused")
     public static void howToMakeObjectsWithPropertiesThatAreCollections() {
         AppleCart cart = make(a(AppleCart, with(apples, listOf(
             an(Apple, with(ripeness, 0.5)),
@@ -43,6 +45,7 @@ public class MakeItEasyExample {
     }
 
     // Yuck! But Java does not do type inference properly.
+    @SuppressWarnings("unused")
     public static void howToMakeGenericObjects() {
         Tree<Banana> bananaTree = make(a(BananaTree,
             with(bananas, setOf(a(Banana), a(Banana), a(Banana)))));

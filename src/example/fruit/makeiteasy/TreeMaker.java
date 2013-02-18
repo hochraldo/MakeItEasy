@@ -1,9 +1,10 @@
 package example.fruit.makeiteasy;
 
-import com.natpryce.makeiteasy.Instantiator;
-import com.natpryce.makeiteasy.Property;
-import static com.natpryce.makeiteasy.Property.newProperty;
-import com.natpryce.makeiteasy.PropertyLookup;
+import com.hochreiter.makeiteasy.Instantiator;
+import com.hochreiter.makeiteasy.Property;
+import com.hochreiter.makeiteasy.PropertyLookup;
+
+import static com.hochreiter.makeiteasy.Property.newProperty;
 import example.fruit.Apple;
 import example.fruit.Banana;
 import example.fruit.Fruit;
@@ -34,6 +35,7 @@ public class TreeMaker {
     /* But because constants cannot have generic wildcards, we must expose the constant through a
      * generic method that forces the property to have the required static type
      */
+    @SuppressWarnings("unchecked")
     public static <F extends Fruit> Property<Tree<F>, Iterable<? extends F>> fruit() {
         return (Property<Tree<F>, Iterable<? extends F>>)fruit;
     }
