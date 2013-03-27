@@ -1,8 +1,8 @@
 package example.donors;
 
-import com.hochreiter.makeiteasy.*;
-import com.hochreiter.makeiteasy.sequence.ChainedSequence;
-import com.hochreiter.makeiteasy.sequence.IndexedSequence;
+import com.makeiteasy.*;
+import com.makeiteasy.sequence.ChainedSequence;
+import com.makeiteasy.sequence.IndexedSequence;
 
 import org.junit.Test;
 
@@ -10,8 +10,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.UUID;
 
-import static com.hochreiter.makeiteasy.MakeItEasy.*;
-import static com.hochreiter.makeiteasy.Property.newProperty;
+import static com.makeiteasy.MakeItEasy.*;
+import static com.makeiteasy.Property.newProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;

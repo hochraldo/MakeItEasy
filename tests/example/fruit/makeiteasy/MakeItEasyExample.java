@@ -1,10 +1,10 @@
 package example.fruit.makeiteasy;
 
-import com.hochreiter.makeiteasy.Maker;
+import com.makeiteasy.Maker;
 
 import example.fruit.*;
 
-import static com.hochreiter.makeiteasy.MakeItEasy.*;
+import static com.makeiteasy.MakeItEasy.*;
 import static example.fruit.makeiteasy.AppleCartMaker.AppleCart;
 import static example.fruit.makeiteasy.AppleCartMaker.apples;
 import static example.fruit.makeiteasy.FruitBowlMaker.FruitBowl;
