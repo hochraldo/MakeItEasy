@@ -1,11 +1,5 @@
 package com.makeiteasy.tests;
 
-import com.makeiteasy.Instantiator;
-import com.makeiteasy.Property;
-import com.makeiteasy.PropertyLookup;
-
-import org.junit.Test;
-
 import static com.makeiteasy.MakeItEasy.a;
 import static com.makeiteasy.MakeItEasy.make;
 import static com.makeiteasy.MakeItEasy.with;
@@ -13,67 +7,73 @@ import static com.makeiteasy.Property.newProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+import org.junit.Test;
+
+import com.makeiteasy.Instantiator;
+import com.makeiteasy.Property;
+import com.makeiteasy.PropertyLookup;
+
 public class MakeItEasyTest {
-    public static class ThingToMake {
-        public final String name;
-        public final int age;
+	public static class ThingToMake {
+		public final String name;
+		public final int age;
 
-        public ThingToMake(String name, int age) {
-            this.name = name;
-            this.age = age;
-        }
-    }
+		public ThingToMake(String name, int age) {
+			this.name = name;
+			this.age = age;
+		}
+	}
 
-    public static final Property<ThingToMake, String> name = newProperty();
-    public static final Property<ThingToMake, Integer> age = newProperty();
+	public static final Property<ThingToMake, String> name = newProperty();
+	public static final Property<ThingToMake, Integer> age = newProperty();
 
-    public static Instantiator<ThingToMake> ThingToMake = new Instantiator<ThingToMake>() {
-        @Override
-        public ThingToMake instantiate(PropertyLookup<ThingToMake> lookup) {
-            return new ThingToMake(lookup.valueOf(name, "Nemo"), lookup.valueOf(age, 99));
-        }
-    };
+	public static Instantiator<ThingToMake> ThingToMake = new Instantiator<ThingToMake>() {
+		@Override
+		public ThingToMake instantiate(PropertyLookup<ThingToMake> lookup) {
+			return new ThingToMake(lookup.valueOf(name, "Nemo"), lookup.valueOf(age, 99));
+		}
+	};
 
-    @Test
-    public void usesDefaultPropertyValuesIfNoPropertiesSpecified() {
-        ThingToMake madeThing = make(a(ThingToMake));
+	@Test
+	public void usesDefaultPropertyValuesIfNoPropertiesSpecified() {
+		ThingToMake madeThing = make(a(ThingToMake));
 
-        assertThat(madeThing.name, equalTo("Nemo"));
-        assertThat(madeThing.age, equalTo(99));
-    }
+		assertThat(madeThing.name, equalTo("Nemo"));
+		assertThat(madeThing.age, equalTo(99));
+	}
 
-    @Test
-    public void overridesDefaultValuesWithExplicitProperties() {
-        ThingToMake madeThing = make(a(ThingToMake, with(name, "Bob"), with(age, 10)));
+	@Test
+	public void overridesDefaultValuesWithExplicitProperties() {
+		ThingToMake madeThing = make(a(ThingToMake, with(name, "Bob"), with(age, 10)));
 
-        assertThat(madeThing.name, equalTo("Bob"));
-        assertThat(madeThing.age, equalTo(10));
+		assertThat(madeThing.name, equalTo("Bob"));
+		assertThat(madeThing.age, equalTo(10));
 
-        ThingToMake differentName = make(a(ThingToMake, with(name, "Bill")));
-        assertThat(differentName.name, equalTo("Bill"));
-    }
+		ThingToMake differentName = make(a(ThingToMake, with(name, "Bill")));
+		assertThat(differentName.name, equalTo("Bill"));
+	}
 
-    public static class ThingContainer {
-        public final ThingToMake thing;
+	public static class ThingContainer {
+		public final ThingToMake thing;
 
-        public ThingContainer(ThingToMake thing) {
-            this.thing = thing;
-        }
-    }
+		public ThingContainer(ThingToMake thing) {
+			this.thing = thing;
+		}
+	}
 
-    public static Property<ThingContainer, ThingToMake> thing = newProperty();
+	public static Property<ThingContainer, ThingToMake> thing = newProperty();
 
-    public static Instantiator<ThingContainer> ThingContainer = new Instantiator<ThingContainer>() {
-        @Override
-        public ThingContainer instantiate(PropertyLookup<ThingContainer> lookup) {
-            return new ThingContainer(lookup.valueOf(thing, make(a(ThingToMake))));
-        }
-    };
+	public static Instantiator<ThingContainer> ThingContainer = new Instantiator<ThingContainer>() {
+		@Override
+		public ThingContainer instantiate(PropertyLookup<ThingContainer> lookup) {
+			return new ThingContainer(lookup.valueOf(thing, make(a(ThingToMake))));
+		}
+	};
 
-    @Test
-    public void canUseMakersToInitialisePropertyValues() {
-        ThingContainer container = make(a(ThingContainer, with(thing, a(ThingToMake, with(name, "foo")))));
+	@Test
+	public void canUseMakersToInitialisePropertyValues() {
+		ThingContainer container = make(a(ThingContainer, with(thing, a(ThingToMake, with(name, "foo")))));
 
-        assertThat(container.thing.name, equalTo("foo"));
-    }
+		assertThat(container.thing.name, equalTo("foo"));
+	}
 }
