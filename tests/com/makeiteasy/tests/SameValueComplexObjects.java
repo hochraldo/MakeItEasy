@@ -139,6 +139,7 @@ public class SameValueComplexObjects {
 		assertThat(co1.refA.valueA1, not(is(co2.refA.valueA1)));
 		assertThat(co1.refB, not(sameInstance(co2.refB)));
 		assertThat(co1.refB.valueB1, is(co2.refB.valueB1));
+		assertThat(co1.refC.valueC1, not(is(co2.refC.valueC1)));
 	}
 
 	@Test
