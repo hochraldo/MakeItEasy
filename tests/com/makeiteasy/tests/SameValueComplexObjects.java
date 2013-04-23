@@ -4,121 +4,33 @@ import static com.makeiteasy.MakeItEasy.a;
 import static com.makeiteasy.MakeItEasy.sameValueMaker;
 import static com.makeiteasy.MakeItEasy.theSame;
 import static com.makeiteasy.MakeItEasy.with;
-import static com.makeiteasy.Property.newProperty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
-import java.util.Random;
-
 import org.junit.Test;
 
 import com.makeiteasy.Donor;
-import com.makeiteasy.Instantiator;
 import com.makeiteasy.Maker;
-import com.makeiteasy.Property;
-import com.makeiteasy.PropertyLookup;
+import com.makeiteasy.tests.objects.ComplexObject;
+import com.makeiteasy.tests.objects.ComplexObjectMaker;
+import com.makeiteasy.tests.objects.ReferenceA;
+import com.makeiteasy.tests.objects.ReferenceAMaker;
+import com.makeiteasy.tests.objects.ReferenceB;
+import com.makeiteasy.tests.objects.ReferenceBMaker;
+import com.makeiteasy.tests.objects.ReferenceC;
+import com.makeiteasy.tests.objects.ReferenceCMaker;
 
 public class SameValueComplexObjects {
 
-	static class ComplexObject {
-		ReferenceA refA;
-		ReferenceB refB;
-		ReferenceC refC;
-
-		public ComplexObject(ReferenceA refA, ReferenceB refB, ReferenceC refC) {
-			this.refA = refA;
-			this.refB = refB;
-			this.refC = refC;
-		}
-
-	}
-
-	public static final Property<ComplexObject, ReferenceA> refA = newProperty();
-	public static final Property<ComplexObject, ReferenceB> refB = newProperty();
-	public static final Property<ComplexObject, ReferenceC> refC = newProperty();
-
-	public static Instantiator<ComplexObject> ComplexObject = new Instantiator<ComplexObject>() {
-		@Override
-		public ComplexObject instantiate(PropertyLookup<ComplexObject> lookup) {
-			return new ComplexObject(lookup.valueOf(refA, a(ReferenceA)), lookup.valueOf(refB, a(ReferenceB)), lookup.valueOf(refC,
-					a(ReferenceC)));
-		}
-	};
-
-	static class ReferenceA {
-		int valueA1;
-		int valueA2;
-
-		public ReferenceA(int valueA1, int valueA2) {
-			this.valueA1 = valueA1;
-			this.valueA2 = valueA2;
-		}
-
-	}
-
-	public static final Property<ReferenceA, Integer> valueA1 = newProperty();
-	public static final Property<ReferenceA, Integer> valueA2 = newProperty();
-
-	public static Instantiator<ReferenceA> ReferenceA = new Instantiator<ReferenceA>() {
-		@Override
-		public ReferenceA instantiate(PropertyLookup<ReferenceA> lookup) {
-			Random r = new Random();
-			return new ReferenceA(lookup.valueOf(valueA1, r.nextInt()), lookup.valueOf(valueA2, r.nextInt()));
-		}
-	};
-
-	static class ReferenceB {
-		int valueB1;
-		int valueB2;
-
-		public ReferenceB(int valueB1, int valueB2) {
-			this.valueB1 = valueB1;
-			this.valueB2 = valueB2;
-		}
-
-	}
-
-	public static final Property<ReferenceB, Integer> valueB1 = newProperty();
-	public static final Property<ReferenceB, Integer> valueB2 = newProperty();
-
-	public static Instantiator<ReferenceB> ReferenceB = new Instantiator<ReferenceB>() {
-		@Override
-		public ReferenceB instantiate(PropertyLookup<ReferenceB> lookup) {
-			Random r = new Random();
-			return new ReferenceB(lookup.valueOf(valueB1, r.nextInt()), lookup.valueOf(valueB2, r.nextInt()));
-		}
-	};
-
-	static class ReferenceC {
-		int valueC1;
-		int valueC2;
-
-		public ReferenceC(int valueC1, int valueC2) {
-			this.valueC1 = valueC1;
-			this.valueC2 = valueC2;
-		}
-
-	}
-
-	public static final Property<ReferenceC, Integer> valueC1 = newProperty();
-	public static final Property<ReferenceC, Integer> valueC2 = newProperty();
-
-	public static Instantiator<ReferenceC> ReferenceC = new Instantiator<ReferenceC>() {
-		@Override
-		public ReferenceC instantiate(PropertyLookup<ReferenceC> lookup) {
-			Random r = new Random();
-			return new ReferenceC(lookup.valueOf(valueC1, r.nextInt()), lookup.valueOf(valueC2, r.nextInt()));
-		}
-	};
-
 	@Test
 	public void sameDonorForComplexObjects() {
-		Donor<ReferenceA> sameA = theSame(ReferenceA);
-		Donor<ReferenceB> sameB = theSame(ReferenceB);
-		Donor<ReferenceC> sameC = theSame(ReferenceC);
-		Maker<ComplexObject> maker = a(ComplexObject, with(refA, sameA), with(refB, sameB), with(refC, sameC));
+		Donor<ReferenceA> sameA = theSame(ReferenceAMaker.ReferenceA);
+		Donor<ReferenceB> sameB = theSame(ReferenceBMaker.ReferenceB);
+		Donor<ReferenceC> sameC = theSame(ReferenceCMaker.ReferenceC);
+		Maker<ComplexObject> maker = a(ComplexObjectMaker.ComplexObject, with(ComplexObjectMaker.refA, sameA),
+				with(ComplexObjectMaker.refB, sameB), with(ComplexObjectMaker.refC, sameC));
 
 		ComplexObject co1 = maker.make();
 		ComplexObject co2 = maker.make();
@@ -130,11 +42,11 @@ public class SameValueComplexObjects {
 
 	@Test
 	public void sameMakerWithButDoesNotDeliverSameValuesForAllOtherValues() {
-		Maker<ReferenceB> refBMaker = a(ReferenceB, with(valueB1, 10));
-		Maker<ComplexObject> maker = a(ComplexObject, with(refB, refBMaker));
+		Maker<ReferenceB> refBMaker = a(ReferenceBMaker.ReferenceB, with(ReferenceBMaker.valueB1, 10));
+		Maker<ComplexObject> maker = a(ComplexObjectMaker.ComplexObject, with(ComplexObjectMaker.refB, refBMaker));
 
 		ComplexObject co1 = maker.make();
-		ComplexObject co2 = maker.but(with(refB, refBMaker)).make();
+		ComplexObject co2 = maker.but(with(ComplexObjectMaker.refB, refBMaker)).make();
 
 		assertThat(co1.refA.valueA1, not(is(co2.refA.valueA1)));
 		assertThat(co1.refB, not(sameInstance(co2.refB)));
@@ -143,9 +55,42 @@ public class SameValueComplexObjects {
 	}
 
 	@Test
+	public void differentRefenrencedMakerDeliversValuesFromTheReferencedMaker() {
+		Maker<ReferenceB> refBMaker = a(ReferenceBMaker.ReferenceB, with(ReferenceBMaker.valueB1, 10));
+		Maker<ComplexObject> maker = a(ComplexObjectMaker.ComplexObject, with(ComplexObjectMaker.refB, refBMaker));
+
+		ComplexObject co1 = maker.make();
+
+		Maker<ReferenceB> newRefBMaker = refBMaker.but(with(ReferenceBMaker.valueB1, 20));
+		ComplexObject co2 = maker.but(with(ComplexObjectMaker.refB, newRefBMaker)).make();
+
+		assertThat(co1.refA.valueA1, not(is(co2.refA.valueA1)));
+		assertThat(co1.refB, not(sameInstance(co2.refB)));
+		assertThat(co1.refB.valueB1, is(10));
+		assertThat(co2.refB.valueB1, is(20));
+		assertThat(co1.refC.valueC1, not(is(co2.refC.valueC1)));
+	}
+
+	@Test
+	public void referencedMakerThatChangesAPropertyValueIsReflectedInTheOuterMaker() {
+		Maker<ReferenceB> refBMaker = a(ReferenceBMaker.ReferenceB, with(ReferenceBMaker.valueB1, 10));
+		Maker<ComplexObject> maker = a(ComplexObjectMaker.ComplexObject, with(ComplexObjectMaker.refB, refBMaker));
+
+		ComplexObject co1 = maker.make();
+		refBMaker.sbut(with(ReferenceBMaker.valueB1, 20));
+		ComplexObject co2 = maker.make();
+
+		assertThat(co1.refA.valueA1, not(is(co2.refA.valueA1)));
+		assertThat(co1.refB, not(sameInstance(co2.refB)));
+		assertThat(co1.refB.valueB1, is(10));
+		assertThat(co2.refB.valueB1, is(20));
+		assertThat(co1.refC.valueC1, not(is(co2.refC.valueC1)));
+	}
+
+	@Test
 	public void explicitSameMakerDoesDeliverSameValuesButNotSameInstance() {
-		Maker<ReferenceB> refBMaker = a(ReferenceB, with(valueB1, 10));
-		Maker<ComplexObject> maker = sameValueMaker(ComplexObject, with(refB, refBMaker));
+		Maker<ReferenceB> refBMaker = a(ReferenceBMaker.ReferenceB, with(ReferenceBMaker.valueB1, 10));
+		Maker<ComplexObject> maker = sameValueMaker(ComplexObjectMaker.ComplexObject, with(ComplexObjectMaker.refB, refBMaker));
 
 		ComplexObject co1 = maker.make();
 		ComplexObject co2 = maker.make();
@@ -158,17 +103,51 @@ public class SameValueComplexObjects {
 
 	@Test
 	public void explicitSameMakerWithButDoesDeliverSameValuesForAllOtherValues() {
-		Maker<ReferenceB> refBMaker = a(ReferenceB, with(valueB1, 10));
-		Maker<ComplexObject> maker = sameValueMaker(ComplexObject, with(refB, refBMaker));
+		Maker<ReferenceB> refBMaker = a(ReferenceBMaker.ReferenceB, with(ReferenceBMaker.valueB1, 10));
+		Maker<ComplexObject> maker = sameValueMaker(ComplexObjectMaker.ComplexObject, with(ComplexObjectMaker.refB, refBMaker));
 
 		ComplexObject co1 = maker.make();
-		Maker<ReferenceC> refcMaker = a(ReferenceC, with(valueC1, 33));
-		ComplexObject co2 = maker.but(with(refC, refcMaker)).make();
+		Maker<ReferenceC> refcMaker = a(ReferenceCMaker.ReferenceC, with(ReferenceCMaker.valueC1, 33));
+		ComplexObject co2 = maker.but(with(ComplexObjectMaker.refC, refcMaker)).make();
 
 		assertThat(co1, not(sameInstance(co2)));
 		assertThat(co1.refA.valueA1, is(co2.refA.valueA1));
 		assertThat(co1.refB.valueB1, is(co2.refB.valueB1));
 		assertThat(co1.refC.valueC1, not(is(co2.refC.valueC1)));
 		assertThat(co2.refC.valueC1, is(33));
+	}
+
+	@Test
+	public void explicitSameMakerWithSameInstanceButDoesDeliverSameValues() {
+		Maker<ReferenceB> refBMaker = a(ReferenceBMaker.ReferenceB, with(ReferenceBMaker.valueB1, 10));
+		Maker<ComplexObject> maker = sameValueMaker(ComplexObjectMaker.ComplexObject, with(ComplexObjectMaker.refB, refBMaker));
+
+		ComplexObject co1 = maker.make();
+		refBMaker.sbut(with(ReferenceBMaker.valueB1, 20));
+		ComplexObject co2 = maker.make();
+
+		assertThat(co1, not(sameInstance(co2)));
+		assertThat(co1.refA.valueA1, is(co2.refA.valueA1));
+		assertThat(co1.refB.valueB1, is(10));
+		assertThat(co2.refB.valueB1, is(20));
+		assertThat(co1.refB.valueB2, not(is(co2.refB.valueB2)));
+		assertThat(co1.refC.valueC1, is(co2.refC.valueC1));
+	}
+
+	@Test
+	public void explicitSameMakerWithSameInstanceButDoesDeliverSameValuesAlsoForReferencedMaker() {
+		Maker<ReferenceB> refBMaker = sameValueMaker(ReferenceBMaker.ReferenceB, with(ReferenceBMaker.valueB1, 10));
+		Maker<ComplexObject> maker = sameValueMaker(ComplexObjectMaker.ComplexObject, with(ComplexObjectMaker.refB, refBMaker));
+
+		ComplexObject co1 = maker.make();
+		refBMaker.sbut(with(ReferenceBMaker.valueB1, 20));
+		ComplexObject co2 = maker.make();
+
+		assertThat(co1, not(sameInstance(co2)));
+		assertThat(co1.refA.valueA1, is(co2.refA.valueA1));
+		assertThat(co1.refB.valueB1, is(10));
+		assertThat(co2.refB.valueB1, is(20));
+		assertThat(co1.refB.valueB2, is(co2.refB.valueB2));
+		assertThat(co1.refC.valueC1, is(co2.refC.valueC1));
 	}
 }

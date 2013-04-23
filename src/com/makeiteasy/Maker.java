@@ -72,11 +72,30 @@ public class Maker<T> implements PropertyLookup<T>, Donor<T> {
 	 */
 	@SafeVarargs
 	public final Maker<T> but(PropertyValue<? super T, ?>... propertyValues) {
-		return createWithAdditionalPropertyValues(propertyValues);
+		return createWithAdditionalPropertyValues(true, propertyValues);
 	}
 
-	protected Maker<T> createWithAdditionalPropertyValues(@SuppressWarnings("unchecked") PropertyValue<? super T, ?>... propertyValues) {
-		return new Maker<T>(this, propertyValues);
+	/**
+	 * Returns the same Maker for the same type of object and with the same initial state
+	 * except where overridden by the given <var>propertyValues</var>.
+	 * 
+	 * @param propertyValues
+	 *            those initial properties of the new Make that will differ from this Maker
+	 * @return the same instance of the maker
+	 */
+	@SafeVarargs
+	public final Maker<T> sbut(PropertyValue<? super T, ?>... propertyValues) {
+		return createWithAdditionalPropertyValues(false, propertyValues);
+	}
+
+	protected Maker<T> createWithAdditionalPropertyValues(boolean newInstance,
+			@SuppressWarnings("unchecked") PropertyValue<? super T, ?>... propertyValues) {
+		if (newInstance) {
+			return new Maker<T>(this, propertyValues);
+		} else {
+			setPropertyValues(propertyValues);
+			return this;
+		}
 	}
 
 	@Override
