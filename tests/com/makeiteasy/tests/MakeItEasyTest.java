@@ -2,10 +2,13 @@ package com.makeiteasy.tests;
 
 import static com.makeiteasy.MakeItEasy.a;
 import static com.makeiteasy.MakeItEasy.make;
+import static com.makeiteasy.MakeItEasy.makeA;
+import static com.makeiteasy.MakeItEasy.makeAn;
 import static com.makeiteasy.MakeItEasy.with;
 import static com.makeiteasy.Property.newProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 import org.junit.Test;
 
@@ -40,6 +43,15 @@ public class MakeItEasyTest {
 
 		assertThat(madeThing.name, equalTo("Nemo"));
 		assertThat(madeThing.age, equalTo(99));
+	}
+
+	@Test
+	public void useMakeAConvenienceMethodToMake() {
+		ThingToMake madeThing1 = makeA(ThingToMake, with(age, 50));
+		ThingToMake madeThing2 = makeAn(ThingToMake, with(name, "Bob"));
+
+		assertThat(madeThing1.age, is(50));
+		assertThat(madeThing2.name, is("Bob"));
 	}
 
 	@Test

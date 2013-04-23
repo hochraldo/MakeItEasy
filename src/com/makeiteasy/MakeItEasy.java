@@ -61,6 +61,16 @@ public class MakeItEasy {
 	}
 
 	@SafeVarargs
+	public static <T> T makeA(Instantiator<T> instantiator, PropertyValue<? super T, ?>... propertyProviders) {
+		return make(a(instantiator, propertyProviders));
+	}
+
+	@SafeVarargs
+	public static <T> T makeAn(Instantiator<T> instantiator, PropertyValue<? super T, ?>... propertyProviders) {
+		return make(an(instantiator, propertyProviders));
+	}
+
+	@SafeVarargs
 	public static <T> Donor<List<T>> listOf(Donor<? extends T>... donors) {
 		return new NewCollectionDonor<List<T>, T>(donors) {
 			@Override
