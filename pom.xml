@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.make-it-easy</groupId>
 	<artifactId>make-it-easy</artifactId>
-	<version>1.2.1</version>
+	<version>1.3.0</version>
 	<packaging>jar</packaging>
 	<name>make-it-easy</name>
 	<description>Fork of MakeItEasy from Nat Pryce</description>
