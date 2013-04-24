@@ -62,6 +62,11 @@ public class Maker<T> implements PropertyLookup<T>, Donor<T> {
 		return make();
 	}
 
+	public Maker<T> reset() {
+		values.clear();
+		return this;
+	}
+
 	/**
 	 * Returns a new Maker for the same type of object and with the same initial state
 	 * except where overridden by the given <var>propertyValues</var>.

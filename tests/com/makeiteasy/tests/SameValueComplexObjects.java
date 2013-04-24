@@ -6,6 +6,8 @@ import static com.makeiteasy.MakeItEasy.theSame;
 import static com.makeiteasy.MakeItEasy.with;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
@@ -55,7 +57,7 @@ public class SameValueComplexObjects {
 	}
 
 	@Test
-	public void differentRefenrencedMakerDeliversValuesFromTheReferencedMaker() {
+	public void differentRefenrencedMakersDeliverTheirAccordingValues() {
 		Maker<ReferenceB> refBMaker = a(ReferenceBMaker.ReferenceB, with(ReferenceBMaker.valueB1, 10));
 		Maker<ComplexObject> maker = a(ComplexObjectMaker.ComplexObject, with(ComplexObjectMaker.refB, refBMaker));
 
@@ -72,7 +74,7 @@ public class SameValueComplexObjects {
 	}
 
 	@Test
-	public void referencedMakerThatChangesAPropertyValueIsReflectedInTheOuterMaker() {
+	public void referencedMakerThatChangesAPropertyValueWitSameInstanceButIsReflected() {
 		Maker<ReferenceB> refBMaker = a(ReferenceBMaker.ReferenceB, with(ReferenceBMaker.valueB1, 10));
 		Maker<ComplexObject> maker = a(ComplexObjectMaker.ComplexObject, with(ComplexObjectMaker.refB, refBMaker));
 
@@ -118,7 +120,7 @@ public class SameValueComplexObjects {
 	}
 
 	@Test
-	public void explicitSameMakerWithSameInstanceButDoesDeliverSameValues() {
+	public void explicitSameMakerWithReferencedMakerThatUpdadesAPropertyValueWithSameInstanceButIsReflectedAndOtherValuesChange() {
 		Maker<ReferenceB> refBMaker = a(ReferenceBMaker.ReferenceB, with(ReferenceBMaker.valueB1, 10));
 		Maker<ComplexObject> maker = sameValueMaker(ComplexObjectMaker.ComplexObject, with(ComplexObjectMaker.refB, refBMaker));
 
@@ -135,7 +137,7 @@ public class SameValueComplexObjects {
 	}
 
 	@Test
-	public void explicitSameMakerWithSameInstanceButDoesDeliverSameValuesAlsoForReferencedMaker() {
+	public void explicitSameMakerWithReferencedMakerThatUpdadesAPropertyValueWithSameInstanceButIsReflectedAndOtherValuesStayTheSame() {
 		Maker<ReferenceB> refBMaker = sameValueMaker(ReferenceBMaker.ReferenceB, with(ReferenceBMaker.valueB1, 10));
 		Maker<ComplexObject> maker = sameValueMaker(ComplexObjectMaker.ComplexObject, with(ComplexObjectMaker.refB, refBMaker));
 
@@ -149,5 +151,21 @@ public class SameValueComplexObjects {
 		assertThat(co2.refB.valueB1, is(20));
 		assertThat(co1.refB.valueB2, is(co2.refB.valueB2));
 		assertThat(co1.refC.valueC1, is(co2.refC.valueC1));
+	}
+
+	@Test
+	public void explicitSameMakerAfterResetGeneratesNewValue() {
+		Maker<ReferenceB> refBMaker = sameValueMaker(ReferenceBMaker.ReferenceB, with(ReferenceBMaker.valueB1, (Integer) null));
+		Maker<ComplexObject> maker = sameValueMaker(ComplexObjectMaker.ComplexObject, with(ComplexObjectMaker.refB, refBMaker));
+
+		ComplexObject co1 = maker.make();
+		refBMaker.reset().sbut(with(ReferenceBMaker.valueB2, (Integer) null));
+		ComplexObject co2 = maker.make();
+
+		assertThat(co1, not(sameInstance(co2)));
+		assertThat(co1.refB.valueB1, nullValue());
+		assertThat(co2.refB.valueB1, notNullValue());
+		assertThat(co1.refB.valueB2, notNullValue());
+		assertThat(co2.refB.valueB2, nullValue());
 	}
 }

@@ -32,7 +32,8 @@ public class SameValueMaker<T> extends Maker<T> {
 
 			if (values.containsKey(property)) {
 				V newValue = super.valueOf(property, defaultValue);
-				if (!newValue.equals(value)) {
+
+				if (!equal(newValue, value)) {
 					recordedValues.put((Property<? super T, Object>) property, value);
 					return newValue;
 				}
@@ -42,6 +43,27 @@ public class SameValueMaker<T> extends Maker<T> {
 			recordedValues.put((Property<? super T, Object>) property, value);
 		}
 		return value;
+	}
+
+	private boolean equal(Object o1, Object o2) {
+		if (o1 == o2) {
+			return true;
+		}
+		if (o1 == null) {
+			if (o2 != null) {
+				return false;
+			}
+		} else if (!o1.equals(o2)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public SameValueMaker<T> reset() {
+		super.reset();
+		recordedValues.clear();
+		return this;
 	}
 
 	/**
