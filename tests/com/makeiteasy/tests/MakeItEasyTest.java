@@ -5,10 +5,12 @@ import static com.makeiteasy.MakeItEasy.make;
 import static com.makeiteasy.MakeItEasy.makeA;
 import static com.makeiteasy.MakeItEasy.makeAn;
 import static com.makeiteasy.MakeItEasy.with;
+import static com.makeiteasy.MakeItEasy.withNull;
 import static com.makeiteasy.Property.newProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 import org.junit.Test;
 
@@ -19,9 +21,9 @@ import com.makeiteasy.PropertyLookup;
 public class MakeItEasyTest {
 	public static class ThingToMake {
 		public final String name;
-		public final int age;
+		public final Integer age;
 
-		public ThingToMake(String name, int age) {
+		public ThingToMake(String name, Integer age) {
 			this.name = name;
 			this.age = age;
 		}
@@ -63,6 +65,15 @@ public class MakeItEasyTest {
 
 		ThingToMake differentName = make(a(ThingToMake, with(name, "Bill")));
 		assertThat(differentName.name, equalTo("Bill"));
+	}
+
+	@Test
+	public void withNullSetsPropertyValueToNull() {
+		ThingToMake madeThing = make(a(ThingToMake, withNull(name), withNull(age)));
+
+		assertThat(madeThing.name, nullValue());
+		assertThat(madeThing.age, nullValue());
+
 	}
 
 	public static class ThingContainer {

@@ -18,33 +18,37 @@ import com.makeiteasy.sequence.ElementsSequence;
 public class MakeItEasy {
 	@SafeVarargs
 	public static <T> Maker<T> a(Instantiator<T> instantiator, PropertyValue<? super T, ?>... propertyProviders) {
-		return new Maker<T>(instantiator, propertyProviders);
+		return new Maker<>(instantiator, propertyProviders);
 	}
 
 	@SafeVarargs
 	public static <T> Maker<T> an(Instantiator<T> instantiator, PropertyValue<? super T, ?>... propertyProviders) {
-		return new Maker<T>(instantiator, propertyProviders);
+		return new Maker<>(instantiator, propertyProviders);
 	}
 
 	public static <T, V, W extends V> PropertyValue<T, V> with(Property<T, V> property, W value) {
-		return new PropertyValue<T, V>(property, new SameValueDonor<V>(value));
+		return new PropertyValue<>(property, new SameValueDonor<V>(value));
 	}
 
 	public static <T, V, W extends V> PropertyValue<T, V> with(W value, Property<T, V> property) {
-		return new PropertyValue<T, V>(property, new SameValueDonor<V>(value));
+		return new PropertyValue<>(property, new SameValueDonor<V>(value));
 	}
 
 	public static <T, V, W extends V> PropertyValue<T, V> with(Property<T, V> property, Donor<W> valueDonor) {
-		return new PropertyValue<T, V>(property, valueDonor);
+		return new PropertyValue<>(property, valueDonor);
 	}
 
 	public static <T, V, W extends V> PropertyValue<T, V> with(Donor<W> valueDonor, Property<T, V> property) {
-		return new PropertyValue<T, V>(property, valueDonor);
+		return new PropertyValue<>(property, valueDonor);
+	}
+
+	public static <T, V, W extends V> PropertyValue<T, V> withNull(Property<T, V> property) {
+		return new PropertyValue<>(property, new NullValueDonor<W>());
 	}
 
 	@SafeVarargs
 	public static <T> Maker<T> sameValueMaker(Instantiator<T> instantiator, PropertyValue<? super T, ?>... propertyProviders) {
-		return new SameValueMaker<T>(instantiator, propertyProviders);
+		return new SameValueMaker<>(instantiator, propertyProviders);
 	}
 
 	@SafeVarargs
@@ -53,7 +57,7 @@ public class MakeItEasy {
 	}
 
 	public static <T> Donor<T> theSame(Donor<T> originalDonor) {
-		return new SameValueDonor<T>(originalDonor.value());
+		return new SameValueDonor<>(originalDonor.value());
 	}
 
 	public static <T> T make(Maker<T> maker) {
@@ -75,7 +79,7 @@ public class MakeItEasy {
 		return new NewCollectionDonor<List<T>, T>(donors) {
 			@Override
 			protected List<T> newCollection() {
-				return new ArrayList<T>();
+				return new ArrayList<>();
 			}
 		};
 	}
@@ -85,7 +89,7 @@ public class MakeItEasy {
 		return new NewCollectionDonor<Set<T>, T>(donors) {
 			@Override
 			protected Set<T> newCollection() {
-				return new HashSet<T>();
+				return new HashSet<>();
 			}
 		};
 	}
@@ -95,13 +99,13 @@ public class MakeItEasy {
 		return new NewCollectionDonor<SortedSet<T>, T>(donors) {
 			@Override
 			protected SortedSet<T> newCollection() {
-				return new TreeSet<T>();
+				return new TreeSet<>();
 			}
 		};
 	}
 
 	public static <T> Donor<T> from(final Iterable<T> values) {
-		return new ElementsSequence<T>(values, Collections.<T> emptyList());
+		return new ElementsSequence<>(values, Collections.<T> emptyList());
 	}
 
 	@SafeVarargs
@@ -110,7 +114,7 @@ public class MakeItEasy {
 	}
 
 	public static <T> Donor<T> fromRepeating(Iterable<T> values) {
-		return new ElementsSequence<T>(values, values);
+		return new ElementsSequence<>(values, values);
 	}
 
 	@SafeVarargs
